@@ -5,19 +5,17 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const app = express();
 const mongoose = require("mongoose");
-const encrypt = require("mongoose-encryption");
+const md5 = require("md5");
 
 const accountSchema = new mongoose.Schema({
   email: String,
   password: String,
 });
 
-accountSchema.plugin(encrypt, { secret: process.env.SECRET, encryptedFields: ["password"] });
-
 const User = new mongoose.model("User", accountSchema);
 
 async function main() {
-  await mongoose.connect("mongodb+srv://slaterade:0H6mi7yyAlAPZ7Q6@cluster0.6ren0ed.mongodb.net/?retryWrites=true&w=majority", { dbName: "userDB" });
+  await mongoose.connect("mongodb+srv://slaterade:" + process.env.MONGOAPI + "@cluster0.6ren0ed.mongodb.net/?retryWrites=true&w=majority", { dbName: "userDB" });
   console.log("connected to MongoDB.");
 }
 
